@@ -15,10 +15,11 @@ type ProductAPI struct {
 }
 
 func (api ProductAPI) ProductListHandler(context *gin.Context) {
-	var products model.ProductInfo
+	var productsInfo model.ProductInfo
 	products, err := api.ProductService.ListProduct()
 	if err != nil {
 		log.Panicln("error productListHandler", err)
 	}
-	context.JSON(http.StatusOK, products)
+	productsInfo.Product = products
+	context.JSON(http.StatusOK, productsInfo)
 }
