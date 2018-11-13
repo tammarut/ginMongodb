@@ -14,11 +14,22 @@ type ProductRepositoryMogo struct {
 	ConnecttionDB *mgo.Session
 }
 
-func (productMogo ProductRepositoryMogo) GetAllProduct() ([]model.Product, error) {
+const (
+	DBName     = "smalldogShop"
+	collection = "product"
+)
+
+func (productMongo ProductRepositoryMogo) GetAllProduct() ([]model.Product, error) {
 	var products []model.Product
-	err := productMogo.ConnecttionDB.DB("smalldogShop").C("product").Find(nil).All(&products)
+	err := productMongo.query(nil).All(&products)
 	return products, err
 }
-func (productMogo ProductRepositoryMogo) CreatProduct(product model.Product) error {
-	return productMogo.ConnecttionDB.DB("smalldoShop").C("product").Insert(product)
+
+func (productMongo ProductRepositoryMogo) CreatProduct(product model.Product) error {
+
+	return productMongo.ConnecttionDB.DB(DBName).C(collection).Insert(product)
+}
+
+func (productMongo ProductRepositoryMogo) query(query interface{}) *mgo.Query {
+	return productMongo.ConnecttionDB.DB(DBName).C(collection).Find(query)
 }
