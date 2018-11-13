@@ -21,7 +21,6 @@ func Test_GetAllProduct_Should_Be_Array_Product(t *testing.T) {
 
 	expected := []model.Product{
 		{
-			ProductID:    1,
 			ProductName:  "CocaCola",
 			ProductPrice: "14.00",
 			Amount:       20,
@@ -34,4 +33,26 @@ func Test_GetAllProduct_Should_Be_Array_Product(t *testing.T) {
 	actual, _ := productRepository.GetAllProduct()
 
 	assert.Equal(t, expected, actual)
+}
+
+func Test_CreatProduct_Shold_Be_Product(t *testing.T) {
+	connectionDB, err := mgo.Dial(mogoDBEnPint)
+	if err != nil {
+		log.Panic("Can no connec to database", err.Error())
+	}
+	defer connectionDB.Close()
+	productRepository := repository.ProductRepositoryMogo{
+		ConnecttionDB: connectionDB,
+	}
+	product := model.Product{
+		ProductName:  "CocaCola",
+		ProductPrice: "14.00",
+		Amount:       20,
+	}
+
+	actual := productRepository.CreatProduct(product)
+
+	if actual != nil {
+		t.Error(err)
+	}
 }

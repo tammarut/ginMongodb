@@ -19,3 +19,6 @@ func (productMogo ProductRepositoryMogo) GetAllProduct() ([]model.Product, error
 	err := productMogo.ConnecttionDB.DB("smalldogShop").C("product").Find(nil).All(&products)
 	return products, err
 }
+func (productMogo ProductRepositoryMogo) CreatProduct(product model.Product) error {
+	return productMogo.ConnecttionDB.DB("smalldoShop").C("product").Insert(product)
+}
