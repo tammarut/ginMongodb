@@ -1,11 +1,10 @@
 package api
 
 import (
+	"demo_mogoDB/model"
 	"demo_mogoDB/repository"
 	"log"
 	"net/http"
-
-	"demo_mogoDB/model"
 
 	"github.com/gin-gonic/gin"
 )

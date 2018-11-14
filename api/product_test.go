@@ -2,10 +2,11 @@ package api_test
 
 import (
 	"demo_mogoDB/api"
-	"demo_mogoDB/route"
 	"io/ioutil"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/gin-gonic/gin"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -18,7 +19,8 @@ func Test_ProductListHandler_Should_Be_ProductInfo(t *testing.T) {
 		ProductRepository: &mockProductRepository{},
 	}
 
-	testRoute := route.NewRoute(productAPI)
+	testRoute := gin.Default()
+	testRoute.GET("api/v1/product", productAPI.ProductListHandler)
 	testRoute.ServeHTTP(writer, request)
 
 	response := writer.Result()
