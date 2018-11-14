@@ -1,22 +1,22 @@
 package api
 
 import (
+	"demo_mogoDB/repository"
 	"log"
 	"net/http"
 
 	"demo_mogoDB/model"
-	"demo_mogoDB/service"
 
 	"github.com/gin-gonic/gin"
 )
 
 type ProductAPI struct {
-	ProductService service.ProductService
+	ProductRepository repository.ProductRepository
 }
 
 func (api ProductAPI) ProductListHandler(context *gin.Context) {
 	var productsInfo model.ProductInfo
-	products, err := api.ProductService.ListProduct()
+	products, err := api.ProductRepository.GetAllProduct()
 	if err != nil {
 		log.Panicln("error productListHandler", err)
 	}

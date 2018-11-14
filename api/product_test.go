@@ -15,7 +15,7 @@ func Test_ProductListHandler_Should_Be_ProductInfo(t *testing.T) {
 	request := httptest.NewRequest("GET", "/api/v1/product", nil)
 	writer := httptest.NewRecorder()
 	productAPI := api.ProductAPI{
-		ProductService: &mockProductService{},
+		ProductRepository: &mockProductRepository{},
 	}
 
 	testRoute := route.NewRoute(productAPI)
