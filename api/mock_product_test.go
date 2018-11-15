@@ -2,6 +2,7 @@ package api_test
 
 import (
 	"demo_mogoDB/model"
+	"time"
 
 	"github.com/globalsign/mgo/bson"
 )
@@ -9,16 +10,18 @@ import (
 type mockProductRepository struct{}
 
 const (
-	listProduct = `{"products":[{"product_id":"5beaf7bd62e63844ce22cc58","product_name":"CocaCola","product_price":"14.00","amount":20},{"product_id":"5beaf7bd62e63844ce22cc57","product_name":"M150","product_price":"10.00","amount":50}]}`
+	listProduct = `{"products":[{"product_id":"5beaf7bd62e63844ce22cc58","product_name":"CocaCola","product_price":"14.00","amount":20,"updated_time":"0001-01-01T00:00:00Z"},{"product_id":"5beaf7bd62e63844ce22cc57","product_name":"M150","product_price":"10.00","amount":50,"updated_time":"0001-01-01T00:00:00Z"}]}`
 )
 
 func (productService mockProductRepository) GetAllProduct() ([]model.Product, error) {
+	updatedTime, _ := time.Parse("2006-01-02", "20060102")
 	return []model.Product{
 		{
 			ProductID:    bson.ObjectIdHex("5beaf7bd62e63844ce22cc58"),
 			ProductName:  "CocaCola",
 			ProductPrice: "14.00",
 			Amount:       20,
+			UpdatedTime:  updatedTime,
 		},
 		{
 			ProductID:    bson.ObjectIdHex("5beaf7bd62e63844ce22cc57"),

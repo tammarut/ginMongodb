@@ -5,6 +5,7 @@ import (
 	"demo_mogoDB/repository"
 	"log"
 	"testing"
+	"time"
 
 	"github.com/globalsign/mgo"
 	"github.com/stretchr/testify/assert"
@@ -25,6 +26,8 @@ func Test_CreatProduct_Shold_Be_Product(t *testing.T) {
 		ProductName:  "CocaCola",
 		ProductPrice: "14.00",
 		Amount:       20,
+		CreatedTime:  time.Now(),
+		UpdatedTime:  time.Now(),
 	}
 
 	actual := productRepository.CreatProduct(product)
