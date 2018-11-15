@@ -22,12 +22,13 @@ func Test_CreatProduct_Shold_Be_Product(t *testing.T) {
 	productRepository := repository.ProductRepositoryMogo{
 		ConnecttionDB: connectionDB,
 	}
+	date := time.Now()
 	product := model.Product{
 		ProductName:  "CocaCola",
 		ProductPrice: "14.00",
 		Amount:       20,
-		CreatedTime:  time.Now(),
-		UpdatedTime:  time.Now(),
+		CreatedTime:  date.Local(),
+		UpdatedTime:  date.Local(),
 	}
 
 	actual := productRepository.CreatProduct(product)

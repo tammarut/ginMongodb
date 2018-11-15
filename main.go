@@ -9,7 +9,10 @@ import (
 	"github.com/globalsign/mgo"
 )
 
-const mogoDBEnPint = "mongodb://localhost:27017"
+const (
+	mogoDBEnPint  = "mongodb://localhost:27017"
+	portWebServie = ":3000"
+)
 
 func main() {
 	connectionDB, err := mgo.Dial(mogoDBEnPint)
@@ -18,5 +21,5 @@ func main() {
 	}
 	router := gin.Default()
 	route.NewRouteProduct(router, connectionDB)
-
+	router.Run(portWebServie)
 }
