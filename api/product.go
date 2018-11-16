@@ -39,3 +39,21 @@ func (api ProductAPI) AddProductHandeler(context *gin.Context) {
 	}
 	context.JSON(http.StatusCreated, gin.H{"status": "susess"})
 }
+
+func (api ProductAPI) EditProductHandler(context *gin.Context) {
+	var product model.Product
+	productID := context.Param("product_id")
+	err := context.ShouldBindJSON(&product)
+	if err != nil {
+		log.Panicln("error productListHandler", err)
+		context.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+		return
+	}
+	err = api.ProductRepository.EditProduct(productID, product)
+	if err != nil {
+		log.Panicln("error productListHandler", err)
+		context.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+		return
+	}
+	context.JSON(http.StatusOK, err)
+}

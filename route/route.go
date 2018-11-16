@@ -14,8 +14,9 @@ func NewRouteProduct(route *gin.Engine, connectionDB *mgo.Session) {
 		ConnecttionDB: connectionDB,
 	}
 	productAPI := api.ProductAPI{
-		ProductRepository: productRepository,
+		ProductRepository: &productRepository,
 	}
 	route.GET("api/v1/product", productAPI.ProductListHandler)
 	route.POST("api/v1/product", productAPI.AddProductHandeler)
+	route.PUT("api/v1/product/:product_id", productAPI.EditProductHandler)
 }

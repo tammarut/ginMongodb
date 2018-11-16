@@ -35,3 +35,7 @@ func (productService mockProductRepository) GetAllProduct() ([]model.Product, er
 func (productService mockProductRepository) AddProduct(product model.Product) error {
 	return nil
 }
+
+func (productService mockProductRepository) EditProduct(productID string, product model.Product) error {
+	return nil
+}

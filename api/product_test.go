@@ -49,3 +49,22 @@ func Test_AddProductHandler_Input_Product_Shoud_Be_Created(t *testing.T) {
 
 	assert.Equal(t, expectedStatusCode, actualStatusCode)
 }
+
+func Test_EditProductHandler_Input_Name_M150_Shoukd_Be_Edited(t *testing.T) {
+	expectedStatusCode := http.StatusOK
+	product := []byte(`{"product_name":"M150"}`)
+	request := httptest.NewRequest("PUT", "/api/v1/product/5beaf7bd62e63844ce22cc58", bytes.NewBuffer(product))
+	writer := httptest.NewRecorder()
+	productAPI := api.ProductAPI{
+		ProductRepository: &mockProductRepository{},
+	}
+
+	testRoute := gin.Default()
+	testRoute.PUT("api/v1/product/:product_id", productAPI.EditProductHandler)
+	testRoute.ServeHTTP(writer, request)
+
+	response := writer.Result()
+	actualStatusCode := response.StatusCode
+
+	assert.Equal(t, expectedStatusCode, actualStatusCode)
+}
