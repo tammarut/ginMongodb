@@ -31,3 +31,7 @@ func (productService mockProductRepository) GetAllProduct() ([]model.Product, er
 		},
 	}, nil
 }
+
+func (productService mockProductRepository) AddProduct(product model.Product) error {
+	return nil
+}
