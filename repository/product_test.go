@@ -31,7 +31,7 @@ func Test_CreatProduct_Shold_Be_Product(t *testing.T) {
 		UpdatedTime:  date.Local(),
 	}
 
-	actual := productRepository.CreatProduct(product)
+	actual := productRepository.AddProduct(product)
 
 	if actual != nil {
 		t.Error(err)

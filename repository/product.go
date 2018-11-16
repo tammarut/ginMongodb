@@ -8,6 +8,7 @@ import (
 
 type ProductRepository interface {
 	GetAllProduct() ([]model.Product, error)
+	AddProduct(product model.Product) error
 }
 
 type ProductRepositoryMogo struct {
@@ -25,7 +26,7 @@ func (productMongo ProductRepositoryMogo) GetAllProduct() ([]model.Product, erro
 	return products, err
 }
 
-func (productMongo ProductRepositoryMogo) CreatProduct(product model.Product) error {
+func (productMongo ProductRepositoryMogo) AddProduct(product model.Product) error {
 
 	return productMongo.ConnecttionDB.DB(DBName).C(collection).Insert(product)
 }
