@@ -20,7 +20,7 @@ func Test_CreatProduct_Shold_Be_Product(t *testing.T) {
 	}
 	defer connectionDB.Close()
 	productRepository := repository.ProductRepositoryMogo{
-		ConnecttionDB: connectionDB,
+		ConnectionDB: connectionDB,
 	}
 	date := time.Now()
 	product := model.Product{
@@ -34,14 +34,14 @@ func Test_CreatProduct_Shold_Be_Product(t *testing.T) {
 	actual := productRepository.AddProduct(product)
 
 	if actual != nil {
-		t.Error(err)
+		t.Error(actual.Error())
 	}
 }
 
 func Test_GetAllProduct_Should_Be_Array_Product(t *testing.T) {
 	connectionDB, err := mgo.Dial(mogoDBEnPint)
 	if err != nil {
-		log.Panic("Can no connec to database", err.Error())
+		log.Panic("Can no connect to database", err.Error())
 	}
 	defer connectionDB.Close()
 
@@ -53,10 +53,31 @@ func Test_GetAllProduct_Should_Be_Array_Product(t *testing.T) {
 		},
 	}
 	productRepository := repository.ProductRepositoryMogo{
-		ConnecttionDB: connectionDB,
+		ConnectionDB: connectionDB,
 	}
 
 	actual, _ := productRepository.GetAllProduct()
 
 	assert.Equal(t, expected, actual)
+}
+
+func Test_EditProduct_Input_Product_Name_M150_Should_Be_Edited(t *testing.T) {
+	connectionDB, err := mgo.Dial(mogoDBEnPint)
+	if err != nil {
+		log.Panic("Con not connect to database", err.Error())
+	}
+	defer connectionDB.Close()
+	productID := "5befe40d9c71fe169a4341df"
+	product := model.Product{
+		ProductName: "M150",
+	}
+	productRepository := repository.ProductRepositoryMogo{
+		ConnectionDB: connectionDB,
+	}
+
+	actual := productRepository.EditProduct(productID, product)
+
+	if actual != nil {
+		t.Error(actual.Error())
+	}
 }
