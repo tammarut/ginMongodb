@@ -39,3 +39,11 @@ func (productService mockProductRepository) AddProduct(product model.Product) er
 func (productService mockProductRepository) EditProduct(productID string, product model.Product) error {
 	return nil
 }
+func (productService mockProductRepository) GetProductByID(productID string) (model.Product, error) {
+	return model.Product{
+		ProductID:    bson.ObjectIdHex("5befe40d9c71fe169a4341df"),
+		ProductName:  "M150",
+		ProductPrice: "14.00",
+		Amount:       20,
+	}, nil
+}

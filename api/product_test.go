@@ -68,3 +68,21 @@ func Test_EditProductHandler_Input_Name_M150_Shoukd_Be_Edited(t *testing.T) {
 
 	assert.Equal(t, expectedStatusCode, actualStatusCode)
 }
+
+func Test_GetProductByIDHandler_Input_Id_5befe40d9c71fe169a4341df_Should_Be_Product_Name_M150(t *testing.T) {
+	expected := `{"product_id":"5befe40d9c71fe169a4341df","product_name":"M150","product_price":"14.00","amount":20,"updated_time":"0001-01-01T00:00:00Z"}`
+	request := httptest.NewRequest("GET", "/api/v1/product/5befe40d9c71fe169a4341df", nil)
+	writer := httptest.NewRecorder()
+	productAPI := api.ProductAPI{
+		ProductRepository: &mockProductRepository{},
+	}
+
+	testRoute := gin.Default()
+	testRoute.GET("api/v1/product/:product_id", productAPI.GetProductByIDHandler)
+	testRoute.ServeHTTP(writer, request)
+
+	response := writer.Result()
+	actual, _ := ioutil.ReadAll(response.Body)
+
+	assert.Equal(t, expected, string(actual))
+}

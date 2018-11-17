@@ -17,7 +17,9 @@ func (api ProductAPI) ProductListHandler(context *gin.Context) {
 	var productsInfo model.ProductInfo
 	products, err := api.ProductRepository.GetAllProduct()
 	if err != nil {
-		log.Panicln("error productListHandler", err)
+		log.Println("error productListHandler", err.Error())
+		context.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+		return
 	}
 	productsInfo.Product = products
 	context.JSON(http.StatusOK, productsInfo)
@@ -27,13 +29,13 @@ func (api ProductAPI) AddProductHandeler(context *gin.Context) {
 	var product model.Product
 	err := context.ShouldBindJSON(&product)
 	if err != nil {
-		log.Panicln("error productListHandler", err)
+		log.Println("error AddProductHandeler", err.Error())
 		context.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
 		return
 	}
 	err = api.ProductRepository.AddProduct(product)
 	if err != nil {
-		log.Panicln("error productListHandler", err)
+		log.Println("error AddProductHandeler", err.Error())
 		context.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
 		return
 	}
@@ -45,15 +47,26 @@ func (api ProductAPI) EditProductHandler(context *gin.Context) {
 	productID := context.Param("product_id")
 	err := context.ShouldBindJSON(&product)
 	if err != nil {
-		log.Panicln("error productListHandler", err)
+		log.Println("error EditProductHandler", err.Error())
 		context.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
 		return
 	}
 	err = api.ProductRepository.EditProduct(productID, product)
 	if err != nil {
-		log.Panicln("error productListHandler", err)
+		log.Println("error EditProductHandler", err.Error())
 		context.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
 		return
 	}
-	context.JSON(http.StatusOK, err)
+	context.JSON(http.StatusOK, gin.H{"status": "susess"})
+}
+
+func (api ProductAPI) GetProductByIDHandler(context *gin.Context) {
+	productID := context.Param("product_id")
+	product, err := api.ProductRepository.GetProductByID(productID)
+	if err != nil {
+		log.Println("error GetProductByIDHandler", err.Error())
+		context.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+		return
+	}
+	context.JSON(http.StatusOK, product)
 }

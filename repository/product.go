@@ -12,6 +12,7 @@ type ProductRepository interface {
 	GetAllProduct() ([]model.Product, error)
 	AddProduct(product model.Product) error
 	EditProduct(productID string, product model.Product) error
+	GetProductByID(productID string) (model.Product, error)
 }
 
 type ProductRepositoryMogo struct {
