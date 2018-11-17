@@ -10,9 +10,9 @@ import (
 
 type ProductRepository interface {
 	GetAllProduct() ([]model.Product, error)
+	GetProductByID(productID string) (model.Product, error)
 	AddProduct(product model.Product) error
 	EditProduct(productID string, product model.Product) error
-	GetProductByID(productID string) (model.Product, error)
 }
 
 type ProductRepositoryMogo struct {
@@ -30,6 +30,12 @@ func (productMongo ProductRepositoryMogo) GetAllProduct() ([]model.Product, erro
 	return products, err
 }
 
+func (productMogo ProductRepositoryMogo) GetProductByID(productID string) (model.Product, error) {
+	var product model.Product
+	objectID := bson.ObjectIdHex(productID)
+	err := productMogo.ConnectionDB.DB(DBName).C(collection).FindId(objectID).One(&product)
+	return product, err
+}
 func (productMongo ProductRepositoryMogo) AddProduct(product model.Product) error {
 	return productMongo.ConnectionDB.DB(DBName).C(collection).Insert(product)
 }
