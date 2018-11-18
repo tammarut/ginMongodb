@@ -42,7 +42,7 @@ func Test_AddProduct_Shold_Be_Product(t *testing.T) {
 	actual := productRepository.AddProduct(product)
 
 	if actual != nil {
-		t.Error(actual.Error())
+		t.Error("Con not Add product",actual.Error())
 	}
 }
 
@@ -83,7 +83,7 @@ func Test_EditProductName_Input_Product_Name_M150_Should_Be_Edited(t *testing.T)
 	actual := productRepository.EditProductName(productID, product)
 
 	if actual != nil {
-		t.Error(actual.Error())
+		t.Error("Con not Edit product",actual.Error())
 	}
 }
 
@@ -128,4 +128,18 @@ func Test_GetLastProduct_Should_Be_Be_Product_Name_M150(t *testing.T) {
 	actual, _ := productRepository.GetLastProduct()
 
 	assert.Equal(t, expected, actual)
+}
+func Test_DeleteProductByID_Input_Id_5befe40d9c71fe169a4341df_Should_Be_Deleted(t*testing.T){
+	connectionDB := connectionDB()
+	defer connectionDB.Close()
+	productID := "5befe40d9c71fe169a4341df"
+	productRepository := repository.ProductRepositoryMogo{
+		ConnectionDB:connectionDB,
+	}
+
+	actua := productRepository.DeleteProductByID(productID)
+
+	if actua != nil{
+		t.Error("Con not delete product",actua.Error())
+	}
 }

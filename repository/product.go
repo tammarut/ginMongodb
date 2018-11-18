@@ -53,3 +53,8 @@ func (productMongo ProductRepositoryMogo) EditProductName(productID string, prod
 	newName := bson.M{"$set": bson.M{"product_name": product.ProductName, "updated_time": time.Now()}}
 	return productMongo.ConnectionDB.DB(DBName).C(collection).UpdateId(objectID, newName)
 }
+
+func (productMongo ProductRepositoryMogo) DeleteProductByID(productID string) error {
+	objectID := bson.ObjectIdHex(productID)
+	return productMongo.ConnectionDB.DB(DBName).C(collection).RemoveId(objectID)
+}
