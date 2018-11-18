@@ -36,7 +36,7 @@ func (productRepository mockProductRepository) AddProduct(product model.Product)
 	return nil
 }
 
-func (productRepository mockProductRepository) EditProduct(productID string, product model.Product) error {
+func (productRepository mockProductRepository) EditProductName(productID string, product model.Product) error {
 	return nil
 }
 func (productRepository mockProductRepository) GetProductByID(productID string) (model.Product, error) {

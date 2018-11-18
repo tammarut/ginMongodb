@@ -51,7 +51,7 @@ func (api ProductAPI) EditProductHandler(context *gin.Context) {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
 		return
 	}
-	err = api.ProductRepository.EditProduct(productID, product)
+	err = api.ProductRepository.EditProductName(productID, product)
 	if err != nil {
 		log.Println("error EditProductHandler", err.Error())
 		context.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})

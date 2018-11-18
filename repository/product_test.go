@@ -69,7 +69,7 @@ func Test_GetAllProduct_Should_Be_Array_Product(t *testing.T) {
 	assert.Equal(t, expected, actual)
 }
 
-func Test_EditProduct_Input_Product_Name_M150_Should_Be_Edited(t *testing.T) {
+func Test_EditProductName_Input_Product_Name_M150_Should_Be_Edited(t *testing.T) {
 	connectionDB := connectionDB()
 	defer connectionDB.Close()
 	productID := "5befe40d9c71fe169a4341df"
@@ -80,7 +80,7 @@ func Test_EditProduct_Input_Product_Name_M150_Should_Be_Edited(t *testing.T) {
 		ConnectionDB: connectionDB,
 	}
 
-	actual := productRepository.EditProduct(productID, product)
+	actual := productRepository.EditProductName(productID, product)
 
 	if actual != nil {
 		t.Error(actual.Error())

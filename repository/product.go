@@ -13,7 +13,7 @@ type ProductRepository interface {
 	GetLastProduct() (model.Product, error)
 	GetProductByID(productID string) (model.Product, error)
 	AddProduct(product model.Product) error
-	EditProduct(productID string, product model.Product) error
+	EditProductName(productID string, product model.Product) error
 }
 
 type ProductRepositoryMogo struct {
@@ -46,7 +46,7 @@ func (productMongo ProductRepositoryMogo) AddProduct(product model.Product) erro
 	return productMongo.ConnectionDB.DB(DBName).C(collection).Insert(product)
 }
 
-func (productMongo ProductRepositoryMogo) EditProduct(productID string, product model.Product) error {
+func (productMongo ProductRepositoryMogo) EditProductName(productID string, product model.Product) error {
 	objectID := bson.ObjectIdHex(productID)
 	newName := bson.M{"$set": bson.M{"product_name": product.ProductName}}
 	return productMongo.ConnectionDB.DB(DBName).C(collection).UpdateId(objectID, newName)
