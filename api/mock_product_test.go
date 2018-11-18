@@ -51,3 +51,7 @@ func (productRepository mockProductRepository) GetProductByID(productID string) 
 func (productRepository mockProductRepository) GetLastProduct() (model.Product, error) {
 	return model.Product{}, nil
 }
+
+func (productRepository mockProductRepository) DeleteProductByID(productID string) error {
+	return nil
+}

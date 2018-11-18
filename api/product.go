@@ -25,6 +25,17 @@ func (api ProductAPI) ProductListHandler(context *gin.Context) {
 	context.JSON(http.StatusOK, productsInfo)
 }
 
+func (api ProductAPI) GetProductByIDHandler(context *gin.Context) {
+	productID := context.Param("product_id")
+	product, err := api.ProductRepository.GetProductByID(productID)
+	if err != nil {
+		log.Println("error GetProductByIDHandler", err.Error())
+		context.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+		return
+	}
+	context.JSON(http.StatusOK, product)
+}
+
 func (api ProductAPI) AddProductHandeler(context *gin.Context) {
 	var product model.Product
 	err := context.ShouldBindJSON(&product)
@@ -42,31 +53,30 @@ func (api ProductAPI) AddProductHandeler(context *gin.Context) {
 	context.JSON(http.StatusCreated, gin.H{"status": "susess"})
 }
 
-func (api ProductAPI) EditProductHandler(context *gin.Context) {
+func (api ProductAPI) EditProducNametHandler(context *gin.Context) {
 	var product model.Product
 	productID := context.Param("product_id")
 	err := context.ShouldBindJSON(&product)
 	if err != nil {
-		log.Println("error EditProductHandler", err.Error())
+		log.Println("error EditProducNametHandler", err.Error())
 		context.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
 		return
 	}
 	err = api.ProductRepository.EditProductName(productID, product)
 	if err != nil {
-		log.Println("error EditProductHandler", err.Error())
+		log.Println("error EditProducNametHandler", err.Error())
 		context.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
 		return
 	}
 	context.JSON(http.StatusOK, gin.H{"status": "susess"})
 }
 
-func (api ProductAPI) GetProductByIDHandler(context *gin.Context) {
+func (api ProductAPI) DeleteProductByIDHandler(context *gin.Context) {
 	productID := context.Param("product_id")
-	product, err := api.ProductRepository.GetProductByID(productID)
+	err := api.ProductRepository.DeleteProductByID(productID)
 	if err != nil {
-		log.Println("error GetProductByIDHandler", err.Error())
+		log.Println("error DeleteProductHandler", err.Error())
 		context.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
-		return
 	}
-	context.JSON(http.StatusOK, product)
+	context.JSON(http.StatusNoContent, gin.H{"message": "susess"})
 }
