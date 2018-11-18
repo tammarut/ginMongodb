@@ -15,6 +15,14 @@ import (
 
 const mogoDBEnPint = "mongodb://localhost:27017"
 
+func connectionDB() *mgo.Session {
+	connectionDB, err := mgo.Dial(mogoDBEnPint)
+	if err != nil {
+		log.Panic("Con not connect to database", err.Error())
+	}
+	return connectionDB
+}
+
 func Test_CreatProduct_Shold_Be_Product(t *testing.T) {
 	connectionDB, err := mgo.Dial(mogoDBEnPint)
 	if err != nil {
@@ -107,10 +115,23 @@ func Test_GetProductByID_Input_ID_5befe40d9c71fe169a4341df_Should_Be_Product_Nam
 	assert.Equal(t, expected, actual)
 }
 
-func connectionDB() *mgo.Session {
-	connectionDB, err := mgo.Dial(mogoDBEnPint)
-	if err != nil {
-		log.Panic("Con not connect to database", err.Error())
+func Test_GetLastProduct_Should_Be_Be_Product_Name_M150(t *testing.T) {
+	connectionDB := connectionDB()
+	defer connectionDB.Close()
+	fixedTime, _ := time.Parse("2006-Jan-02", "2018-Oct-08")
+	expected := model.Product{
+		ProductID:    bson.ObjectIdHex("5befe40d9c71fe169a4341df"),
+		ProductName:  "M150",
+		ProductPrice: "14.00",
+		Amount:       20,
+		CreatedTime:  fixedTime,
+		UpdatedTime:  fixedTime,
 	}
-	return connectionDB
+	productRepository := repository.ProductRepositoryMogo{
+		ConnectionDB: connectionDB,
+	}
+
+	actual, _ := productRepository.GetLastProduct()
+
+	assert.Equal(t, expected, actual)
 }
