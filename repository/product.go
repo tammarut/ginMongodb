@@ -18,7 +18,7 @@ type ProductRepository interface {
 	DeleteProductByID(productID string) error
 }
 
-type ProductRepositoryMogo struct {
+type ProductRepositoryMongo struct {
 	ConnectionDB *mgo.Session
 }
 
@@ -27,34 +27,34 @@ const (
 	collection = "product"
 )
 
-func (productMongo ProductRepositoryMogo) GetAllProduct() ([]model.Product, error) {
+func (productMongo ProductRepositoryMongo) GetAllProduct() ([]model.Product, error) {
 	var products []model.Product
 	err := productMongo.ConnectionDB.DB(DBName).C(collection).Find(nil).All(&products)
 	return products, err
 }
 
-func (productMogo ProductRepositoryMogo) GetProductByID(productID string) (model.Product, error) {
+func (productMogo ProductRepositoryMongo) GetProductByID(productID string) (model.Product, error) {
 	var product model.Product
 	objectID := bson.ObjectIdHex(productID)
 	err := productMogo.ConnectionDB.DB(DBName).C(collection).FindId(objectID).One(&product)
 	return product, err
 }
-func (productMogo ProductRepositoryMogo) GetLastProduct() (model.Product, error) {
+func (productMogo ProductRepositoryMongo) GetLastProduct() (model.Product, error) {
 	var product model.Product
 	err := productMogo.ConnectionDB.DB(DBName).C(collection).Find(nil).Sort("-created_time").One(&product)
 	return product, err
 }
-func (productMongo ProductRepositoryMogo) AddProduct(product model.Product) error {
+func (productMongo ProductRepositoryMongo) AddProduct(product model.Product) error {
 	return productMongo.ConnectionDB.DB(DBName).C(collection).Insert(product)
 }
 
-func (productMongo ProductRepositoryMogo) EditProductName(productID string, product model.Product) error {
+func (productMongo ProductRepositoryMongo) EditProductName(productID string, product model.Product) error {
 	objectID := bson.ObjectIdHex(productID)
 	newName := bson.M{"$set": bson.M{"product_name": product.ProductName, "updated_time": time.Now()}}
 	return productMongo.ConnectionDB.DB(DBName).C(collection).UpdateId(objectID, newName)
 }
 
-func (productMongo ProductRepositoryMogo) DeleteProductByID(productID string) error {
+func (productMongo ProductRepositoryMongo) DeleteProductByID(productID string) error {
 	objectID := bson.ObjectIdHex(productID)
 	return productMongo.ConnectionDB.DB(DBName).C(collection).RemoveId(objectID)
 }

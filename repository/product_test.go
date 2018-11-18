@@ -26,7 +26,7 @@ func connectionDB() *mgo.Session {
 func Test_AddProduct_Shold_Be_Product(t *testing.T) {
 	connectionDB := connectionDB()
 	defer connectionDB.Close()
-	productRepository := repository.ProductRepositoryMogo{
+	productRepository := repository.ProductRepositoryMongo{
 		ConnectionDB: connectionDB,
 	}
 	fixedTime, _ := time.Parse("2006-Jan-02", "2018-Oct-08")
@@ -60,7 +60,7 @@ func Test_GetAllProduct_Should_Be_Array_Product(t *testing.T) {
 			UpdatedTime:  fixedTime,
 		},
 	}
-	productRepository := repository.ProductRepositoryMogo{
+	productRepository := repository.ProductRepositoryMongo{
 		ConnectionDB: connectionDB,
 	}
 
@@ -76,7 +76,7 @@ func Test_EditProductName_Input_Product_Name_M150_Should_Be_Edited(t *testing.T)
 	product := model.Product{
 		ProductName: "M150",
 	}
-	productRepository := repository.ProductRepositoryMogo{
+	productRepository := repository.ProductRepositoryMongo{
 		ConnectionDB: connectionDB,
 	}
 
@@ -100,7 +100,7 @@ func Test_GetProductByID_Input_ID_5befe40d9c71fe169a4341df_Should_Be_Product_Nam
 		UpdatedTime:  fixedTime,
 	}
 	productID := "5befe40d9c71fe169a4341df"
-	productRepository := repository.ProductRepositoryMogo{
+	productRepository := repository.ProductRepositoryMongo{
 		ConnectionDB: connectionDB,
 	}
 
@@ -121,7 +121,7 @@ func Test_GetLastProduct_Should_Be_Be_Product_Name_M150(t *testing.T) {
 		CreatedTime:  fixedTime,
 		UpdatedTime:  fixedTime,
 	}
-	productRepository := repository.ProductRepositoryMogo{
+	productRepository := repository.ProductRepositoryMongo{
 		ConnectionDB: connectionDB,
 	}
 
@@ -133,7 +133,7 @@ func Test_DeleteProductByID_Input_Id_5befe40d9c71fe169a4341df_Should_Be_Deleted(
 	connectionDB := connectionDB()
 	defer connectionDB.Close()
 	productID := "5befe40d9c71fe169a4341df"
-	productRepository := repository.ProductRepositoryMogo{
+	productRepository := repository.ProductRepositoryMongo{
 		ConnectionDB:connectionDB,
 	}
 

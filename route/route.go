@@ -10,7 +10,7 @@ import (
 )
 
 func NewRouteProduct(route *gin.Engine, connectionDB *mgo.Session) {
-	productRepository := repository.ProductRepositoryMogo{
+	productRepository := repository.ProductRepositoryMongo{
 		ConnectionDB: connectionDB,
 	}
 	productAPI := api.ProductAPI{
