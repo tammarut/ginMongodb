@@ -2,6 +2,7 @@ package repository
 
 import (
 	"demo_mogoDB/model"
+	"time"
 
 	"github.com/globalsign/mgo/bson"
 
@@ -48,6 +49,6 @@ func (productMongo ProductRepositoryMogo) AddProduct(product model.Product) erro
 
 func (productMongo ProductRepositoryMogo) EditProductName(productID string, product model.Product) error {
 	objectID := bson.ObjectIdHex(productID)
-	newName := bson.M{"$set": bson.M{"product_name": product.ProductName}}
+	newName := bson.M{"$set": bson.M{"product_name": product.ProductName, "updated_time": time.Now()}}
 	return productMongo.ConnectionDB.DB(DBName).C(collection).UpdateId(objectID, newName)
 }
