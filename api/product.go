@@ -1,5 +1,6 @@
 package api
 
+//! ถอดข้อมูลจากการเรียก API และแปลงเป็น Json Format -> Responseไป
 import (
 	"demo_mogoDB/model"
 	"demo_mogoDB/repository"
@@ -10,19 +11,20 @@ import (
 )
 
 type ProductAPI struct {
-	ProductRepository repository.ProductRepository
+	ProductRepository repository.ProductRepository //+ Set field ProductRe.. Type interfacce
 }
 
-func (api ProductAPI) ProductListHandler(context *gin.Context) {
+func (api ProductAPI) ProductListHandler(context *gin.Context) { //+ method parameter pointer gin.Context
 	var productsInfo model.ProductInfo
-	products, err := api.ProductRepository.GetAllProduct()
+
+	products, err := api.ProductRepository.GetAllProduct() //+ Call GetAllProduct ผ่านinterface api.ProductRepository
 	if err != nil {
-		log.Println("error productListHandler", err.Error())
-		context.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+		log.Println("error productListHandler", err.Error())                        //+ error => command line
+		context.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()}) //+ error =>Response(Status500, message error)
 		return
 	}
 	productsInfo.Product = products
-	context.JSON(http.StatusOK, productsInfo)
+	context.JSON(http.StatusOK, productsInfo) //+ Work! Response =>Status200 และข้อมูลArray product(JSON)
 }
 
 func (api ProductAPI) GetProductByIDHandler(context *gin.Context) {

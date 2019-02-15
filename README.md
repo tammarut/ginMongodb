@@ -1,4 +1,5 @@
 # Demo_mogoDB
+#Use gin ->not echo!!
 วิธีเขียน GO เชื่อมต่อกับ Database mogoDB
 สามารถอ่านการอธิบายการทำงานของ Code ได้ที่
 
@@ -11,3 +12,5 @@ docker run --name smalldogStore -p 27017:27017 -d mongo:3.6
 go run main.go
 ```
 สามารถใช้งานได้ที่ http://localhost:3000/api/v1/product
+
+

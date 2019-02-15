@@ -1,5 +1,6 @@
 package repository
 
+//! เชื่อมต่อ Database(ข้างใน)
 import (
 	"demo_mogoDB/model"
 	"time"
@@ -9,7 +10,7 @@ import (
 	"github.com/globalsign/mgo"
 )
 
-type ProductRepository interface {
+type ProductRepository interface { //+ Interface เก็บmethod
 	GetAllProduct() ([]model.Product, error)
 	GetLastProduct() (model.Product, error)
 	GetProductByID(productID string) (model.Product, error)
@@ -18,7 +19,7 @@ type ProductRepository interface {
 	DeleteProductByID(productID string) error
 }
 
-type ProductRepositoryMongo struct {
+type ProductRepositoryMongo struct { //+ เก็บConnection database
 	ConnectionDB *mgo.Session
 }
 
@@ -27,6 +28,7 @@ const (
 	collection = "product"
 )
 
+//+ Implement method =>ดึงของจากdatabase ใส่ลง'products'
 func (productMongo ProductRepositoryMongo) GetAllProduct() ([]model.Product, error) {
 	var products []model.Product
 	err := productMongo.ConnectionDB.DB(DBName).C(collection).Find(nil).All(&products)
@@ -58,3 +60,10 @@ func (productMongo ProductRepositoryMongo) DeleteProductByID(productID string) e
 	objectID := bson.ObjectIdHex(productID)
 	return productMongo.ConnectionDB.DB(DBName).C(collection).RemoveId(objectID)
 }
+
+/*
+DB.(arimaDB) => ดึงข้อมูลจาก DB ชื่ออะไร
+C(collection) => ดึงข้อมูลจาก Collection หรือ Table
+Find(nil) => กรองข้อมูลตามเงื่อนไข เช่น bson.M:{“product_name”:”CocaCola}, (nil ไม่มีการกรอง)
+All(&products) => query ข้อมูลทั้งหมดเข้าไปใว้ที่ตัวแปร prodcuts
+*/

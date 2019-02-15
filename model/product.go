@@ -1,5 +1,6 @@
 package model
 
+//! เก็บstructure ข้อมูล
 import (
 	"time"
 
@@ -7,10 +8,10 @@ import (
 )
 
 type ProductInfo struct {
-	Product []Product `json:"products"`
+	Product []Product `json:"products"` //+ Response เป็นArray
 }
 
-type Product struct {
+type Product struct { //+ โครงสร้างการเก็บ
 	ProductID    bson.ObjectId `json:"product_id" bson:"_id,omitempty"`
 	ProductName  string        `json:"product_name" bson:"product_name"`
 	ProductPrice string        `json:"product_price" bson:"product_price"`

@@ -1,5 +1,6 @@
 package main
 
+//! Run API and connect database(Mongodb) | Use gin
 import (
 	"demo_mogoDB/route"
 	"log"
@@ -15,11 +16,11 @@ const (
 )
 
 func main() {
-	connectionDB, err := mgo.Dial(mogoDBEnPint)
+	connectionDB, err := mgo.Dial(mogoDBEnPint) //+ Connecting mongodb
 	if err != nil {
 		log.Panic("Can no connect Database", err.Error())
 	}
-	router := gin.Default()
-	route.NewRouteProduct(router, connectionDB)
-	router.Run(portWebServie)
+	router := gin.Default()                     //+ route API(gin) default port
+	route.NewRouteProduct(router, connectionDB) //+ ->pass 2 values to func NewRouteProduct in route folder
+	router.Run(portWebServie)                   //+ run webSevice :3000
 }
